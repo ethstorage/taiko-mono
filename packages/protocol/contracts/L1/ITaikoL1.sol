@@ -83,8 +83,3 @@ interface ITaikoL1 {
     /// @return payment to save a blob to storage contract.
     function getStoragePayment() external view returns (uint256);
 }
-
-interface IStorageContract {
-    function putBlob(bytes32 key, uint256 blobIdx, uint256 length) external payable;
-    function upfrontPayment() external view returns (uint256);
-}
