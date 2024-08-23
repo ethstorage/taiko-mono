@@ -61,6 +61,7 @@ library LibProposing {
     /// @param _state Current TaikoData.State.
     /// @param _config Actual TaikoData.Config.
     /// @param _resolver Address resolver interface.
+    /// @param _storageContract Address storage contract interface.
     /// @param _data Encoded data bytes containing the block params.
     /// @param _txList Transaction list bytes (if not blob).
     /// @return metaV1_ The constructed block's metadata v1.
@@ -70,6 +71,7 @@ library LibProposing {
         TaikoData.State storage _state,
         TaikoData.Config memory _config,
         IAddressResolver _resolver,
+        IStorageContract _storageContract,
         bytes calldata _data,
         bytes calldata _txList
     )
@@ -196,6 +198,8 @@ library LibProposing {
             // blob.
             meta_.blobHash = blobhash(local.params.blobIndex);
             if (meta_.blobHash == 0) revert L1_BLOB_NOT_FOUND();
+            uint256 payment = _storageContract.upfrontPayment();
+            _storageContract.putBlob{value: payment}(meta_.blobHash, local.params.blobIndex, 4096 * 32);
         } else {
             meta_.blobHash = keccak256(_txList);
             emit CalldataTxList(meta_.id, _txList);

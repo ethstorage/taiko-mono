@@ -21,6 +21,7 @@ import "./ITaikoL1.sol";
 contract TaikoL1 is EssentialContract, ITaikoL1, TaikoEvents {
     /// @notice The TaikoL1 state.
     TaikoData.State public state;
+    IStorageContract public immutable storageContract;
 
     uint256[50] private __gap;
 
@@ -50,12 +51,14 @@ contract TaikoL1 is EssentialContract, ITaikoL1, TaikoEvents {
     function init(
         address _owner,
         address _rollupAddressManager,
+        address _storageContract,
         bytes32 _genesisBlockHash,
         bool _toPause
     )
         external
         initializer
     {
+        storageContract = IStorageContract(_storageContract);
         __Essential_init(_owner, _rollupAddressManager);
         LibUtils.init(state, getConfig(), _genesisBlockHash);
         if (_toPause) _pause();
@@ -84,7 +87,7 @@ contract TaikoL1 is EssentialContract, ITaikoL1, TaikoEvents {
     {
         TaikoData.Config memory config = getConfig();
 
-        (meta_,, deposits_) = LibProposing.proposeBlock(state, config, this, _params, _txList);
+        (meta_,, deposits_) = LibProposing.proposeBlock(state, config, this, storageContract, _params, _txList);
         if (meta_.id >= config.ontakeForkHeight) revert L1_FORK_ERROR();
 
         if (LibUtils.shouldVerifyBlocks(config, meta_.id, true) && !state.slotB.provingPaused) {
@@ -320,6 +323,11 @@ contract TaikoL1 is EssentialContract, ITaikoL1, TaikoEvents {
          });
     }
 
+    /// @inheritdoc ITaikoL1
+    function getStoragePayment() external view returns (uint256) {
+        storageContract.upfrontPayment();
+    }
+
     function _proposeBlock(
         bytes calldata _params,
         bytes calldata _txList,
@@ -328,7 +336,7 @@ contract TaikoL1 is EssentialContract, ITaikoL1, TaikoEvents {
         internal
         returns (TaikoData.BlockMetadataV2 memory meta_)
     {
-        (, meta_,) = LibProposing.proposeBlock(state, _config, this, _params, _txList);
+        (, meta_,) = LibProposing.proposeBlock(state, _config, this, storageContract, _params, _txList);
         if (meta_.id < _config.ontakeForkHeight) revert L1_FORK_ERROR();
 
         if (LibUtils.shouldVerifyBlocks(_config, meta_.id, true) && !state.slotB.provingPaused) {
