@@ -207,6 +207,11 @@ contract TaikoL1 is EssentialContract, ITaikoL1, TaikoEvents {
         return LibVerifying.getVerifiedBlockProver(state, getConfig(), _blockId);
     }
 
+    /// @inheritdoc ITaikoL1
+    function getStoragePayment() external view returns (uint256) {
+        return 0;
+    }
+
     /// @notice Gets the details of a block.
     /// @param _blockId Index of the block.
     /// @return blk_ The block.
