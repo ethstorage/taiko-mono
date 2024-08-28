@@ -199,6 +199,7 @@ library LibProposing {
             // blob.
             meta_.blobHash = blobhash(local.params.blobIndex);
             if (meta_.blobHash == 0) revert L1_BLOB_NOT_FOUND();
+            if 
             uint256 payment = _storageContract.upfrontPayment();
             _storageContract.putBlob{value: payment}(meta_.blobHash, local.params.blobIndex, 4096 * 32);
         } else {

@@ -47,6 +47,7 @@ contract TaikoL1 is EssentialContract, ITaikoL1, TaikoEvents {
     /// @notice Initializes the contract.
     /// @param _owner The owner of this contract. msg.sender will be used if this value is zero.
     /// @param _rollupAddressManager The address of the {AddressManager} contract.
+    /// @param _storageContract The address of storage contract.
     /// @param _genesisBlockHash The block hash of the genesis block.
     /// @param _toPause true to pause the contract by default.
     function init(
