@@ -22,7 +22,7 @@ import "./ITaikoL1.sol";
 contract TaikoL1 is EssentialContract, ITaikoL1, TaikoEvents {
     /// @notice The TaikoL1 state.
     TaikoData.State public state;
-    IStorageContract public immutable storageContract;
+    IStorageContract public storageContract;
 
     uint256[50] private __gap;
 
