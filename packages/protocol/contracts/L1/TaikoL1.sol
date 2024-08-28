@@ -327,7 +327,7 @@ contract TaikoL1 is EssentialContract, ITaikoL1, TaikoEvents {
 
     /// @inheritdoc ITaikoL1
     function getStoragePayment() external view returns (uint256) {
-        storageContract.upfrontPayment();
+        return storageContract.upfrontPayment();
     }
 
     function _proposeBlock(
