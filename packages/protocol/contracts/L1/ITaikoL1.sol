@@ -81,5 +81,5 @@ interface ITaikoL1 {
 
     /// @notice Gets the payment for saving one blob to the storage contract.
     /// @return payment to save a blob to storage contract.
-    function getStoragePayment() external view returns (uint256);
+    function getStoragePayment() external pure returns (uint256);
 }
