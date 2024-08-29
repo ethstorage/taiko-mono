@@ -316,8 +316,19 @@ contract TaikoL1 is EssentialContract, ITaikoL1, TaikoEvents {
                 minGasExcess: 1_340_000_000,
                 maxGasIssuancePerBlock: 600_000_000 // two minutes
              }),
-            ontakeForkHeight: 374_400 // = 7200 * 52
-         });
+            ontakeForkHeight: 374_400, // = 7200 * 52
+            storageContract: address(0)
+        });
+    }
+
+    /// @inheritdoc ITaikoL1
+    function getStoragePayment() external view returns (uint256) {
+        if (_config.storageContract != address(0)) {
+            IStorageContract storageContract = IStorageContract(_config.storageContract)
+            return storageContract.upfrontPayment();
+        } else {
+            return 0;
+        }
     }
 
     function _proposeBlock(

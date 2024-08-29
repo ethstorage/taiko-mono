@@ -78,4 +78,8 @@ interface ITaikoL1 {
     /// @notice Gets the configuration of the TaikoL1 contract.
     /// @return Config struct containing configuration parameters.
     function getConfig() external pure returns (TaikoData.Config memory);
+
+    /// @notice Gets the payment for saving one blob to the storage contract.
+    /// @return payment to save a blob to storage contract.
+    function getStoragePayment() external pure returns (uint256);
 }

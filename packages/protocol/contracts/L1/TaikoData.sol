@@ -53,6 +53,8 @@ library TaikoData {
         // Group 6: Others
         // ---------------------------------------------------------------------
         uint64 ontakeForkHeight;
+        // The address of storage contract
+        address storageContract;
     }
 
     /// @dev A proof and the tier of proof it belongs to
