@@ -72,7 +72,7 @@ library LibProposing {
         TaikoData.State storage _state,
         TaikoData.Config memory _config,
         IAddressResolver _resolver,
-        IStorageContract _storageContract,
+        address _storageContract,
         bytes calldata _data,
         bytes calldata _txList
     )
