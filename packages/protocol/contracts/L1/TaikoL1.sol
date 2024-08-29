@@ -323,8 +323,9 @@ contract TaikoL1 is EssentialContract, ITaikoL1, TaikoEvents {
 
     /// @inheritdoc ITaikoL1
     function getStoragePayment() external view returns (uint256) {
-        if (_config.storageContract != address(0)) {
-            IStorageContract storageContract = IStorageContract(_config.storageContract)
+        TaikoData.Config memory config = getConfig();
+        if (config.storageContract != address(0)) {
+            IStorageContract storageContract = IStorageContract(config.storageContract);
             return storageContract.upfrontPayment();
         } else {
             return 0;
