@@ -4,6 +4,7 @@ pragma solidity 0.8.24;
 import "../../libs/LibAddress.sol";
 import "../../libs/LibNetwork.sol";
 import "../access/IProposerAccess.sol";
+import "../access/IStorageContract.sol";
 import "./LibBonds.sol";
 import "./LibData.sol";
 import "./LibUtils.sol";
