@@ -26,7 +26,7 @@ contract DevnetTaikoL1 is TaikoL1 {
                 maxGasIssuancePerBlock: 600_000_000
             }),
             ontakeForkHeight: 2,
-            storageContract: address(0)
+            longTermDAContract: address(0)
         });
     }
 }

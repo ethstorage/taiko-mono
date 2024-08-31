@@ -4,7 +4,7 @@ pragma solidity 0.8.24;
 import "../../libs/LibAddress.sol";
 import "../../libs/LibNetwork.sol";
 import "../access/IProposerAccess.sol";
-import "../access/IStorageContract.sol";
+import "../access/ILongTermDAContract.sol";
 import "./LibBonds.sol";
 import "./LibData.sol";
 import "./LibUtils.sol";
@@ -197,10 +197,10 @@ library LibProposing {
             // blob.
             meta_.blobHash = blobhash(local.params.blobIndex);
             if (meta_.blobHash == 0) revert L1_BLOB_NOT_FOUND();
-            if (_config.storageContract != address(0)) {
-                IStorageContract storageContract = IStorageContract(_config.storageContract);
-                uint256 payment = storageContract.upfrontPayment();
-                storageContract.putBlob{value: payment}(meta_.blobHash, local.params.blobIndex, 4096 * 32);
+            if (_config.longTermDAContract != address(0)) {
+                ILongTermDAContract longTermDAContract = ILongTermDAContract(_config.longTermDAContract);
+                uint256 payment = longTermDAContract.upfrontPayment();
+                longTermDAContract.putBlob{value: payment}(meta_.blobHash, local.params.blobIndex, 4096 * 32);
             }
         } else {
             meta_.blobHash = keccak256(_txList);

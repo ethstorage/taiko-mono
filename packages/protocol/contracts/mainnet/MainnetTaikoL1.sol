@@ -38,7 +38,7 @@ contract MainnetTaikoL1 is TaikoL1 {
                 maxGasIssuancePerBlock: 600_000_000 // two minutes
              }),
             ontakeForkHeight: 374_400, // = 7200 * 52
-            storageContract: address(0)
+            longTermDAContract: address(0)
          });
     }
 

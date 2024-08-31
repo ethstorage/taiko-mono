@@ -53,8 +53,8 @@ library TaikoData {
         // Group 6: Others
         // ---------------------------------------------------------------------
         uint64 ontakeForkHeight;
-        // The address of storage contract
-        address storageContract;
+        // The contract address for long-term storage of DA data
+        address longTermDAContract;
     }
 
     /// @dev A proof and the tier of proof it belongs to
