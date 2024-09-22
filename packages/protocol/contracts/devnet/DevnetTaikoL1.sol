@@ -10,7 +10,7 @@ contract DevnetTaikoL1 is TaikoL1 {
     /// @inheritdoc ITaikoL1
     function getConfig() public pure override returns (TaikoData.Config memory) {
         return TaikoData.Config({
-            chainId: 167_001,
+            chainId: LibNetwork.TAIKO_ESTAIKO,
             blockMaxProposals: 324_000,
             blockRingBufferSize: 360_000,
             maxBlocksToVerify: 16,
@@ -26,7 +26,7 @@ contract DevnetTaikoL1 is TaikoL1 {
                 maxGasIssuancePerBlock: 600_000_000
             }),
             ontakeForkHeight: 2,
-            longTermDAContract: address(0)
+            longTermDAContract: 0xF0c445a063f4D942B95a7D1ae4b49042C0c1a60E
         });
     }
 }
