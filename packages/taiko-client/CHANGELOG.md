@@ -1,5 +1,106 @@
 # Changelog
 
+## [0.36.0](https://github.com/taikoxyz/taiko-mono/compare/taiko-client-v0.35.0...taiko-client-v0.36.0) (2024-09-12)
+
+
+### Features
+
+* **taiko-client:** update Go contract bindings after protocol restructure ([#18075](https://github.com/taikoxyz/taiko-mono/issues/18075)) ([57f4953](https://github.com/taikoxyz/taiko-mono/commit/57f49530828e6da2d28ab3979576befdee626c7d))
+
+## [0.35.0](https://github.com/taikoxyz/taiko-mono/compare/taiko-client-v0.34.1...taiko-client-v0.35.0) (2024-09-10)
+
+
+### Features
+
+* **taiko-client:** add two more new ZK related metrics ([#18043](https://github.com/taikoxyz/taiko-mono/issues/18043)) ([e43eeac](https://github.com/taikoxyz/taiko-mono/commit/e43eeacb5b7a3d1fc412ffafc39f329f68ff7b40))
+* **taiko-client:** remove the legacy `290` tier ([#18035](https://github.com/taikoxyz/taiko-mono/issues/18035)) ([5064037](https://github.com/taikoxyz/taiko-mono/commit/50640377db773763c3ccba1bc4f342cd1e497147))
+* **taiko-client:** update `ontakeForkHeight` to Sep 24, 2024 ([#18047](https://github.com/taikoxyz/taiko-mono/issues/18047)) ([a1ff620](https://github.com/taikoxyz/taiko-mono/commit/a1ff620507e4a8077705c981c3622e3787a55ecd))
+* **taiko-client:** update contract binding & add `Proposer` ([#18053](https://github.com/taikoxyz/taiko-mono/issues/18053)) ([d0554a2](https://github.com/taikoxyz/taiko-mono/commit/d0554a208c4913751ff5b273f3e96ca298279d14))
+* **taiko-client:** use `proveBlocks` by default for post ontake blocks ([#18042](https://github.com/taikoxyz/taiko-mono/issues/18042)) ([15709af](https://github.com/taikoxyz/taiko-mono/commit/15709af1520251f4baeba7d2bbbc8de841bee718))
+
+
+### Bug Fixes
+
+* **taiko-client:** use proposed at, not timestamp when fetching blob ([#18055](https://github.com/taikoxyz/taiko-mono/issues/18055)) ([32d95c1](https://github.com/taikoxyz/taiko-mono/commit/32d95c1d9e887e886da57e580554413b4f3a19c5))
+
+## [0.34.1](https://github.com/taikoxyz/taiko-mono/compare/taiko-client-v0.34.0...taiko-client-v0.34.1) (2024-09-04)
+
+
+### Bug Fixes
+
+* **taiko-client:** temp support tier 290 ([#18030](https://github.com/taikoxyz/taiko-mono/issues/18030)) ([f1aeac3](https://github.com/taikoxyz/taiko-mono/commit/f1aeac39d3c2ce06578a64bbe8a2fe4343d212f4))
+
+## [0.34.0](https://github.com/taikoxyz/taiko-mono/compare/taiko-client-v0.33.1...taiko-client-v0.34.0) (2024-09-02)
+
+
+### Features
+
+* **taiko-client:** introduce sp1 zk proof ([#18003](https://github.com/taikoxyz/taiko-mono/issues/18003)) ([492c208](https://github.com/taikoxyz/taiko-mono/commit/492c208b97e8fa08eb3e11b0a8712a5542eba660))
+* **taiko-client:** remove an unused field in prover ([#18024](https://github.com/taikoxyz/taiko-mono/issues/18024)) ([5d416d2](https://github.com/taikoxyz/taiko-mono/commit/5d416d2366e485b242818fb1a15eb0281cb7cedf))
+* **taiko-client:** remove an unused filed in proposer ([#18021](https://github.com/taikoxyz/taiko-mono/issues/18021)) ([64fdf5c](https://github.com/taikoxyz/taiko-mono/commit/64fdf5c80708b14d2cefadfbd78ee59810df3f65))
+* **taiko-client:** update Go contract bindings ([#18012](https://github.com/taikoxyz/taiko-mono/issues/18012)) ([7f054ca](https://github.com/taikoxyz/taiko-mono/commit/7f054ca4505313f8fc500cdb28bf223a254424e2))
+
+## [0.33.1](https://github.com/taikoxyz/taiko-mono/compare/taiko-client-v0.33.0...taiko-client-v0.33.1) (2024-08-30)
+
+
+### Bug Fixes
+
+* **taiko-client:** initialize private mempool transaction sender in `InitFromConfig` ([#18005](https://github.com/taikoxyz/taiko-mono/issues/18005)) ([58f1c85](https://github.com/taikoxyz/taiko-mono/commit/58f1c85ad471a545f8f00bfd32b3241657f38e8f))
+
+## [0.33.0](https://github.com/taikoxyz/taiko-mono/compare/taiko-client-v0.32.0...taiko-client-v0.33.0) (2024-08-29)
+
+
+### Features
+
+* **taiko-client:** introduce `CalculateBaseFee()` method ([#17989](https://github.com/taikoxyz/taiko-mono/issues/17989)) ([fdee419](https://github.com/taikoxyz/taiko-mono/commit/fdee4195541e5c675561cf34c5e1a9e3e3990bbf))
+* **taiko-client:** introduce `TxMgrSelector` for proposer / prover ([#17986](https://github.com/taikoxyz/taiko-mono/issues/17986)) ([6eb298f](https://github.com/taikoxyz/taiko-mono/commit/6eb298f31723e838ac4261fbecbfcfce371d8606))
+* **taiko-client:** update Go contract bindings ([#17997](https://github.com/taikoxyz/taiko-mono/issues/17997)) ([606114f](https://github.com/taikoxyz/taiko-mono/commit/606114faa0b5642055455f07cbd7ec2c3c23b00c))
+* **taiko-client:** update protocol configs temporarily ([#17999](https://github.com/taikoxyz/taiko-mono/issues/17999)) ([7893700](https://github.com/taikoxyz/taiko-mono/commit/789370090ffb7d985b2d9d55bf4efec8495df6bd))
+
+
+### Bug Fixes
+
+* **taiko-client:** fix CallOpts and `TestTreasuryIncome` test case ([#18000](https://github.com/taikoxyz/taiko-mono/issues/18000)) ([5707a08](https://github.com/taikoxyz/taiko-mono/commit/5707a08ffab3c981f0f23bcb8c7833176903d183))
+
+
+### Chores
+
+* **taiko-client:** don't use color prefix in log's terminal handler ([#17991](https://github.com/taikoxyz/taiko-mono/issues/17991)) ([1675cec](https://github.com/taikoxyz/taiko-mono/commit/1675cecab5773d1c4fdf82b8e000a6f5bebddfc6))
+
+
+### Tests
+
+* **taiko-client:** support full sync and snap sync in hive test ([#17995](https://github.com/taikoxyz/taiko-mono/issues/17995)) ([831198b](https://github.com/taikoxyz/taiko-mono/commit/831198baecc5f0e10c5c8fac1c04f9dad320c63c))
+* **taiko-client:** support multi clusters reorg hive test ([#17987](https://github.com/taikoxyz/taiko-mono/issues/17987)) ([28d9072](https://github.com/taikoxyz/taiko-mono/commit/28d90729adc391cb04b58fa2c32a9e3bfbd989a5))
+
+## [0.32.0](https://github.com/taikoxyz/taiko-mono/compare/taiko-client-v0.31.0...taiko-client-v0.32.0) (2024-08-27)
+
+
+### Features
+
+* **taiko-client:** add optional `l1.private` ([#17962](https://github.com/taikoxyz/taiko-mono/issues/17962)) ([9274f2d](https://github.com/taikoxyz/taiko-mono/commit/9274f2dc90f18c58cc208146f584c9f9715d3d60))
+* **taiko-client:** optimising statistics on proof request times ([#17976](https://github.com/taikoxyz/taiko-mono/issues/17976)) ([791f44f](https://github.com/taikoxyz/taiko-mono/commit/791f44f381fa362f24c4beff5b5b25c47929bbc4))
+
+
+### Bug Fixes
+
+* **taiko-client:** fix some issues about `calculateBaseFee` ([#17978](https://github.com/taikoxyz/taiko-mono/issues/17978)) ([b010efe](https://github.com/taikoxyz/taiko-mono/commit/b010efe195259e7c98e0ad6fb91b0c6484ae2b80))
+* **taiko-client:** prints logs when using `privateTxMgr` ([#17980](https://github.com/taikoxyz/taiko-mono/issues/17980)) ([a0c3388](https://github.com/taikoxyz/taiko-mono/commit/a0c33882ca00fb834001abac95b6ade656d55e87))
+
+
+### Chores
+
+* **taiko-client:** fix lint errors ([#17969](https://github.com/taikoxyz/taiko-mono/issues/17969)) ([eedec99](https://github.com/taikoxyz/taiko-mono/commit/eedec991c92d5fcd418cde4db9d16c9b36122a0a))
+* **taiko-client:** keep env vars same with the flag name ([#17964](https://github.com/taikoxyz/taiko-mono/issues/17964)) ([d08a1de](https://github.com/taikoxyz/taiko-mono/commit/d08a1de8a36a4bac484bf0390728cb8ed87b3a0b))
+
+
+### Tests
+
+* **taiko-client:** introduce multi nodes hive test ([#17981](https://github.com/taikoxyz/taiko-mono/issues/17981)) ([9910863](https://github.com/taikoxyz/taiko-mono/commit/9910863865ecf7f583552e74f6a5d2e1a4060dca))
+* **taiko-client:** introduce reorg hive test ([#17965](https://github.com/taikoxyz/taiko-mono/issues/17965)) ([ab601ee](https://github.com/taikoxyz/taiko-mono/commit/ab601eea813190a314555c1773a982de16da0e59))
+* **taiko-client:** open container logs and close build image logs ([#17959](https://github.com/taikoxyz/taiko-mono/issues/17959)) ([b541201](https://github.com/taikoxyz/taiko-mono/commit/b54120141f0e18f1912db66d28390d2a92af36c9))
+* **taiko-client:** update HIVE test configurations ([#17950](https://github.com/taikoxyz/taiko-mono/issues/17950)) ([4818274](https://github.com/taikoxyz/taiko-mono/commit/4818274860e8d626e5456479a520229e7c17f31c))
+
 ## [0.31.0](https://github.com/taikoxyz/taiko-mono/compare/taiko-client-v0.30.0...taiko-client-v0.31.0) (2024-08-20)
 
 

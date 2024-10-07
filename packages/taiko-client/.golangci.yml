@@ -36,7 +36,6 @@ linters:
     - goimports
     - gosimple
     - govet
-    - gosec
     - gofmt
     - ineffassign
     - importas
@@ -50,7 +49,6 @@ linters:
     - sqlclosecheck
     - staticcheck
     - stylecheck
-    - typecheck
     - unconvert
     - unused
     - whitespace

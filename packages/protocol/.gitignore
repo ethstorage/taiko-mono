@@ -14,6 +14,7 @@ yarn-error.log*
 package-lock.json
 npm-debug.log*
 typechain-types
+test/genesis/generate/data
 
 # Hardhat files
 cache
@@ -33,3 +34,14 @@ broadcast
 lcov.info
 
 simulation/out/
+
+# Serverless directories
+.serverless
+jspm_packages
+
+*.log
+.DS_Store
+
+secrets*.yml
+.defender
+.platform

@@ -77,7 +77,7 @@ func (c *AnchorTxConstructor) AssembleAnchorV2Tx(
 	anchorBlockID *big.Int,
 	anchorStateRoot common.Hash,
 	parentGasUsed uint64,
-	baseFeeConfig *bindings.TaikoDataBaseFeeConfig,
+	baseFeeConfig *bindings.LibSharedDataBaseFeeConfig,
 	// Height of the L2 block which including the TaikoL2.anchorV2 transaction.
 	l2Height *big.Int,
 	baseFee *big.Int,

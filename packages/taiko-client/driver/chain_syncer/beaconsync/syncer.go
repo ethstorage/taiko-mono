@@ -119,6 +119,7 @@ func (s *Syncer) getBlockPayload(ctx context.Context, blockID uint64) (*engine.E
 		ts, err := s.rpc.GetTransition(
 			ctx,
 			new(big.Int).SetUint64(blockInfo.BlockId),
+
 			uint32(blockInfo.VerifiedTransitionId.Uint64()),
 		)
 		if err != nil {

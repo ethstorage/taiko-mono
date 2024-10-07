@@ -14,7 +14,8 @@ import (
 var (
 	TierOptimisticID       uint16 = 100
 	TierSgxID              uint16 = 200
-	TierZkVMRisc0ID        uint16 = 290
+	TierZkVMRisc0ID        uint16 = 250
+	TierZkVMSp1ID          uint16 = 251
 	TierSgxAndZkVMID       uint16 = 300
 	TierGuardianMinorityID uint16 = 900
 	TierGuardianMajorityID uint16 = 1000
@@ -39,6 +40,7 @@ type BlockParams struct {
 
 // BlockParamsV2 should be same with TaikoData.BlockParamsV2.
 type BlockParamsV2 struct {
+	Proposer         common.Address
 	Coinbase         common.Address
 	ParentMetaHash   [32]byte
 	AnchorBlockId    uint64

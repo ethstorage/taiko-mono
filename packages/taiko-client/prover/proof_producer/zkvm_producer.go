@@ -67,6 +67,7 @@ func (s *ZKvmProofProducer) RequestProof(
 	blockID *big.Int,
 	meta metadata.TaikoBlockMetaData,
 	header *types.Header,
+	requestAt time.Time,
 ) (*ProofWithHeader, error) {
 	log.Info(
 		"Request zk proof from raiko-host service",
@@ -78,15 +79,19 @@ func (s *ZKvmProofProducer) RequestProof(
 	)
 
 	if s.Dummy {
-		return s.DummyProofProducer.RequestProof(opts, blockID, meta, header, s.Tier())
+		return s.DummyProofProducer.RequestProof(opts, blockID, meta, header, s.Tier(), requestAt)
 	}
 
-	proof, err := s.callProverDaemon(ctx, opts)
+	proof, err := s.callProverDaemon(ctx, opts, requestAt)
 	if err != nil {
 		return nil, err
 	}
 
-	metrics.ProverSgxProofGeneratedCounter.Add(1)
+	if s.ZKProofType == ZKProofTypeR0 {
+		metrics.ProverR0ProofGeneratedCounter.Add(1)
+	} else if s.ZKProofType == ZKProofTypeSP1 {
+		metrics.ProverSp1ProofGeneratedCounter.Add(1)
+	}
 
 	return &ProofWithHeader{
 		BlockID: blockID,
@@ -106,10 +111,13 @@ func (s *ZKvmProofProducer) RequestCancel(
 }
 
 // callProverDaemon keeps polling the proverd service to get the requested proof.
-func (s *ZKvmProofProducer) callProverDaemon(ctx context.Context, opts *ProofRequestOptions) ([]byte, error) {
+func (s *ZKvmProofProducer) callProverDaemon(
+	ctx context.Context,
+	opts *ProofRequestOptions,
+	requestAt time.Time,
+) ([]byte, error) {
 	var (
 		proof []byte
-		start = time.Now()
 	)
 
 	zkCtx, zkCancel := rpc.CtxWithTimeoutOrDefault(ctx, s.RaikoRequestTimeout)
@@ -128,11 +136,14 @@ func (s *ZKvmProofProducer) callProverDaemon(ctx context.Context, opts *ProofReq
 		return nil, ErrRetry
 	}
 
+	if len(output.Data.Proof.Proof) == 0 {
+		return nil, errEmptyProof
+	}
 	proof = common.Hex2Bytes(output.Data.Proof.Proof[2:])
 	log.Info(
 		"Proof generated",
 		"height", opts.BlockID,
-		"time", time.Since(start),
+		"time", time.Since(requestAt),
 		"producer", "ZKvmProofProducer",
 	)
 
@@ -144,17 +155,32 @@ func (s *ZKvmProofProducer) requestProof(
 	ctx context.Context,
 	opts *ProofRequestOptions,
 ) (*RaikoRequestProofBodyResponseV2, error) {
-	reqBody := RaikoRequestProofBody{
-		Type:     s.ZKProofType,
-		Block:    opts.BlockID,
-		Prover:   opts.ProverAddress.Hex()[2:],
-		Graffiti: opts.Graffiti,
-		RISC0: &RISC0RequestProofBodyParam{
-			Bonsai:       true,
-			Snark:        true,
-			Profile:      false,
-			ExecutionPo2: big.NewInt(20),
-		},
+	var reqBody RaikoRequestProofBody
+	switch s.ZKProofType {
+	case ZKProofTypeSP1:
+		reqBody = RaikoRequestProofBody{
+			Type:     s.ZKProofType,
+			Block:    opts.BlockID,
+			Prover:   opts.ProverAddress.Hex()[2:],
+			Graffiti: opts.Graffiti,
+			SP1: &SP1RequestProofBodyParam{
+				Recursion: "plonk",
+				Prover:    "network",
+			},
+		}
+	default:
+		reqBody = RaikoRequestProofBody{
+			Type:     s.ZKProofType,
+			Block:    opts.BlockID,
+			Prover:   opts.ProverAddress.Hex()[2:],
+			Graffiti: opts.Graffiti,
+			RISC0: &RISC0RequestProofBodyParam{
+				Bonsai:       true,
+				Snark:        true,
+				Profile:      false,
+				ExecutionPo2: big.NewInt(20),
+			},
+		}
 	}
 
 	client := &http.Client{}
@@ -188,7 +214,12 @@ func (s *ZKvmProofProducer) requestProof(
 		return nil, err
 	}
 
-	log.Debug("Proof generation output", "output", string(resBytes))
+	log.Debug(
+		"Proof generation output",
+		"blockID", opts.BlockID,
+		"zkType", s.ZKProofType,
+		"output", string(resBytes),
+	)
 	var output RaikoRequestProofBodyResponseV2
 	if err := json.Unmarshal(resBytes, &output); err != nil {
 		return nil, err
@@ -255,6 +286,8 @@ func (s *ZKvmProofProducer) requestCancel(
 // Tier implements the ProofProducer interface.
 func (s *ZKvmProofProducer) Tier() uint16 {
 	switch s.ZKProofType {
+	case ZKProofTypeSP1:
+		return encoding.TierZkVMSp1ID
 	default:
 		return encoding.TierZkVMRisc0ID
 	}

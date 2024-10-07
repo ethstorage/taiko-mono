@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"math/big"
+	"time"
 
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/types"
@@ -13,6 +14,7 @@ import (
 
 var (
 	errProofGenerating = errors.New("proof is generating")
+	errEmptyProof      = errors.New("proof is empty")
 )
 
 // ProofRequestBody represents a request body to generate a proof.
@@ -62,6 +64,7 @@ type ProofProducer interface {
 		blockID *big.Int,
 		meta metadata.TaikoBlockMetaData,
 		header *types.Header,
+		requestAt time.Time,
 	) (*ProofWithHeader, error)
 	RequestCancel(
 		ctx context.Context,
