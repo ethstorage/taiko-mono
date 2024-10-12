@@ -24,7 +24,7 @@ contract TestGenerateGenesis is Test, AddressResolver {
     uint256 private l1ChainId = configJSON.readUint(".l1ChainId");
 
     function testSharedContractsDeployment() public {
-        assertEq(block.chainid, 167);
+        assertEq(block.chainid, 167001);
 
         // check bytecode
         checkDeployedCode("ERC20Vault");
@@ -135,7 +135,7 @@ contract TestGenerateGenesis is Test, AddressResolver {
                 id: 0,
                 from: address(0),
                 srcChainId: 1,
-                destChainId: 167,
+                destChainId: 167001,
                 srcOwner: address(0),
                 destOwner: address(0),
                 to: address(0),
@@ -159,7 +159,7 @@ contract TestGenerateGenesis is Test, AddressResolver {
                 id: 0,
                 from: address(0),
                 srcChainId: 1,
-                destChainId: 167,
+                destChainId: 167001,
                 srcOwner: address(0),
                 destOwner: address(0),
                 to: address(0),

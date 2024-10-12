@@ -2,15 +2,15 @@
 const ADDRESS_LENGTH = 40;
 
 module.exports = {
-  contractOwner: "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
-  l1ChainId: 1,
-  chainId: 167,
+  contractOwner: "0x8be2c9379eb69877F25aBa61a853eC4FCb0b273a",
+  l1ChainId: 17000,
+  chainId: 167001,
   seedAccounts: [
     {
       "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266": 1024,
     },
     {
-      "0x70997970C51812dc3A010C7d01b50e0d17dc79C8": 1024,
+      "0x8be2c9379eb69877F25aBa61a853eC4FCb0b273a": 1024,
     },
     {
       "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC": 1024,
