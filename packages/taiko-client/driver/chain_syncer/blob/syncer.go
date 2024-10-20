@@ -134,7 +134,6 @@ func (s *Syncer) processL1Blocks(ctx context.Context) error {
 	iter, err := eventIterator.NewBlockProposedIterator(ctx, &eventIterator.BlockProposedIteratorConfig{
 		Client:               s.rpc.L1,
 		TaikoL1:              s.rpc.TaikoL1,
-		LibProposing:         s.rpc.LibProposing,
 		StartHeight:          s.state.GetL1Current().Number,
 		EndHeight:            l1End.Number,
 		FilterQuery:          nil,
@@ -410,10 +409,15 @@ func (s *Syncer) insertNewHead(
 		return nil, fmt.Errorf("failed to create execution payloads: %w", err)
 	}
 
+	lastVerifiedBlockHash, err := s.rpc.GetLastVerifiedBlockHash(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("failed to fetch the last verified block hash: %w", err)
+	}
+
 	fc := &engine.ForkchoiceStateV1{
 		HeadBlockHash:      payload.BlockHash,
-		SafeBlockHash:      payload.BlockHash,
-		FinalizedBlockHash: payload.BlockHash,
+		SafeBlockHash:      lastVerifiedBlockHash,
+		FinalizedBlockHash: lastVerifiedBlockHash,
 	}
 
 	// Update the fork choice
