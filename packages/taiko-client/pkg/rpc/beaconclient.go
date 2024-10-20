@@ -3,6 +3,7 @@ package rpc
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"strconv"
 	"strings"
@@ -32,6 +33,7 @@ type GenesisResponse struct {
 
 type BeaconClient struct {
 	*beacon.Client
+	fallbackCli *beacon.Client
 
 	timeout        time.Duration
 	genesisTime    uint64
@@ -39,10 +41,18 @@ type BeaconClient struct {
 }
 
 // NewBeaconClient returns a new beacon client.
-func NewBeaconClient(endpoint string, timeout time.Duration) (*BeaconClient, error) {
+func NewBeaconClient(endpoint string, archiverEndpoint string, timeout time.Duration) (*BeaconClient, error) {
 	cli, err := beacon.NewClient(strings.TrimSuffix(endpoint, "/"), client.WithTimeout(timeout))
 	if err != nil {
 		return nil, err
+	}
+
+	var fallbackCli *beacon.Client = nil
+	if archiverEndpoint != "" {
+		fallbackCli, err = beacon.NewClient(archiverEndpoint, client.WithTimeout(timeout))
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), timeout)
@@ -79,7 +89,7 @@ func NewBeaconClient(endpoint string, timeout time.Duration) (*BeaconClient, err
 
 	log.Info("L1 seconds per slot", "seconds", secondsPerSlot)
 
-	return &BeaconClient{cli, timeout, uint64(genesisTime), uint64(secondsPerSlot)}, nil
+	return &BeaconClient{cli, fallbackCli, timeout, uint64(genesisTime), uint64(secondsPerSlot)}, nil
 }
 
 // GetBlobs returns the sidecars for a given slot.
@@ -92,7 +102,13 @@ func (c *BeaconClient) GetBlobs(ctx context.Context, time uint64) ([]*structs.Si
 		return nil, err
 	}
 	resBytes, err := c.Get(ctxWithTimeout, c.BaseURL().Path+fmt.Sprintf(sidecarsRequestURL, slot))
-	if err != nil {
+	if err != nil && c.fallbackCli != nil {
+		err0 := err
+		resBytes, err = c.fallbackCli.Get(ctxWithTimeout, fmt.Sprintf(sidecarsRequestURL, slot))
+		if err != nil {
+			return nil, errors.Join(err0, err)
+		}
+	} else if err != nil {
 		return nil, err
 	}
 
