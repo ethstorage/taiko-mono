@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.24;
 
-import "../../shared/common/EssentialContract.sol";
+import "src/shared/common/EssentialContract.sol";
 import "./LibData.sol";
 import "./LibProposing.sol";
 import "./LibProving.sol";
@@ -77,8 +77,10 @@ contract TaikoL1 is EssentialContract, ITaikoL1, TaikoEvents {
         returns (TaikoData.BlockMetadata memory meta_, TaikoData.EthDeposit[] memory deposits_)
     {
         TaikoData.Config memory config = getConfig();
-        (meta_,) = LibProposing.proposeBlock(state, config, this, _params, _txList);
-        if (meta_.id >= config.ontakeForkHeight) revert L1_FORK_ERROR();
+
+        TaikoData.BlockMetadataV2 memory metaV2;
+        (meta_, metaV2) = LibProposing.proposeBlock(state, config, this, _params, _txList);
+        if (metaV2.id >= config.ontakeForkHeight) revert L1_FORK_ERROR();
         deposits_ = new TaikoData.EthDeposit[](0);
     }
 
@@ -190,14 +192,13 @@ contract TaikoL1 is EssentialContract, ITaikoL1, TaikoEvents {
         blk_ = LibData.blockV2toV1(blk);
     }
 
-    /// @notice Gets the details of a block.
-    /// @param _blockId Index of the block.
-    /// @return blk_ The block.
+    /// @inheritdoc ITaikoL1
     function getBlockV2(uint64 _blockId) external view returns (TaikoData.BlockV2 memory blk_) {
         (blk_,) = LibUtils.getBlock(state, getConfig(), _blockId);
     }
 
-    /// @notice Gets the state transition for a specific block.
+    /// @notice This function will revert if the transition is not found. This function will revert
+    /// if the transition is not found.
     /// @param _blockId Index of the block.
     /// @param _parentHash Parent hash of the block.
     /// @return The state transition data of the block.
@@ -212,7 +213,8 @@ contract TaikoL1 is EssentialContract, ITaikoL1, TaikoEvents {
         return LibUtils.getTransition(state, getConfig(), _blockId, _parentHash);
     }
 
-    /// @notice Gets the state transitions for a batch of block.
+    /// @notice Gets the state transitions for a batch of block. For transition that doesn't exist,
+    /// the corresponding transition state will be empty.
     /// @param _blockIds Index of the blocks.
     /// @param _parentHashes Parent hashes of the blocks.
     /// @return The state transition array of the blocks.
@@ -227,10 +229,7 @@ contract TaikoL1 is EssentialContract, ITaikoL1, TaikoEvents {
         return LibUtils.getTransitions(state, getConfig(), _blockIds, _parentHashes);
     }
 
-    /// @notice Gets the state transition for a specific block.
-    /// @param _blockId Index of the block.
-    /// @param _tid The transition id.
-    /// @return The state transition data of the block.
+    /// @inheritdoc ITaikoL1
     function getTransition(
         uint64 _blockId,
         uint32 _tid
@@ -240,21 +239,6 @@ contract TaikoL1 is EssentialContract, ITaikoL1, TaikoEvents {
         returns (TaikoData.TransitionState memory)
     {
         return LibUtils.getTransition(state, getConfig(), _blockId, _tid);
-    }
-
-    /// @notice Gets the state transitions for a batch of block.
-    /// @param _blockIds Index array of the blocks.
-    /// @param _tids The transition id array of the blocks.
-    /// @return The state transition array of the blocks.
-    function getTransitions(
-        uint64[] calldata _blockIds,
-        uint32[] calldata _tids
-    )
-        external
-        view
-        returns (TaikoData.TransitionState[] memory)
-    {
-        return LibUtils.getTransitions(state, getConfig(), _blockIds, _tids);
     }
 
     /// @notice Returns information about the last verified block.
