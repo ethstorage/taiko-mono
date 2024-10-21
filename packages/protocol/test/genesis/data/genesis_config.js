@@ -4,7 +4,7 @@ const ADDRESS_LENGTH = 40;
 module.exports = {
   // Owner address of the pre-deployed L2 contracts.
   contractOwner: "0x8be2c9379eb69877F25aBa61a853eC4FCb0b273a",
-  l1ChainId: 17000,
+  l1ChainId: 1,
   // Chain ID of the Taiko L2 network.
   chainId: 167001,
   // Account address and pre-mint ETH amount as key-value pairs.
@@ -13,7 +13,7 @@ module.exports = {
     { "0x79fcdef22feed20eddacbb2587640e45491b757f": 1000 },
   ],
   // Owner Chain ID, Security Council, and Timelock Controller
-  l1ChainId: 31337,
+  l1ChainId: 17000,
   ownerSecurityCouncil: "0x8be2c9379eb69877F25aBa61a853eC4FCb0b273a",
   ownerTimelockController: "0x8be2c9379eb69877F25aBa61a853eC4FCb0b273a",
   get contractAddresses() {
