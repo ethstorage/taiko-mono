@@ -3,13 +3,14 @@ package rpc
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"strconv"
 	"strings"
 	"time"
 
 	"github.com/ethereum/go-ethereum/log"
-	"github.com/pkg/errors"
+	pkgerrors "github.com/pkg/errors"
 	"github.com/prysmaticlabs/prysm/v5/api/client"
 	"github.com/prysmaticlabs/prysm/v5/api/client/beacon"
 	"github.com/prysmaticlabs/prysm/v5/api/server/structs"
@@ -133,7 +134,7 @@ func (c *BeaconClient) timeToSlot(timestamp uint64) (uint64, error) {
 func getConfigSpec(ctx context.Context, c *beacon.Client) (*structs.GetSpecResponse, error) {
 	body, err := c.Get(ctx, c.BaseURL().Path+getConfigSpecPath)
 	if err != nil {
-		return nil, errors.Wrap(err, "error requesting configSpecPath")
+		return nil, pkgerrors.Wrap(err, "error requesting configSpecPath")
 	}
 	fsr := &structs.GetSpecResponse{}
 	err = json.Unmarshal(body, fsr)
