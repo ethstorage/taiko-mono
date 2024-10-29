@@ -57,6 +57,7 @@ var (
 // DriverFlags All driver flags.
 var DriverFlags = MergeFlags(CommonFlags, []cli.Flag{
 	L1BeaconEndpoint,
+	L1BeaconArchiverEndpoint,
 	L2WSEndpoint,
 	L2AuthEndpoint,
 	JWTSecret,

@@ -43,6 +43,7 @@ type ClientConfig struct {
 	L1Endpoint                    string
 	L2Endpoint                    string
 	L1BeaconEndpoint              string
+	L1BeaconArchiverEndpoint      string
 	L2CheckPoint                  string
 	TaikoL1Address                common.Address
 	TaikoL2Address                common.Address
@@ -82,7 +83,7 @@ func NewClient(ctx context.Context, cfg *ClientConfig) (*Client, error) {
 
 		// NOTE: when running tests, we do not have a L1 beacon endpoint.
 		if cfg.L1BeaconEndpoint != "" && os.Getenv("RUN_TESTS") == "" {
-			if l1BeaconClient, err = NewBeaconClient(cfg.L1BeaconEndpoint, defaultTimeout); err != nil {
+			if l1BeaconClient, err = NewBeaconClient(cfg.L1BeaconEndpoint, cfg.L1BeaconArchiverEndpoint, defaultTimeout); err != nil {
 				log.Error("Failed to connect to L1 beacon endpoint, retrying", "endpoint", cfg.L1BeaconEndpoint, "err", err)
 				return err
 			}

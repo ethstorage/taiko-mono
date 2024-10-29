@@ -47,6 +47,12 @@ var (
 		Category: commonCategory,
 		EnvVars:  []string{"L1_BEACON"},
 	}
+	L1BeaconArchiverEndpoint = &cli.StringFlag{
+		Name:     "l1.beacon-archiver",
+		Usage:    "HTTP RPC endpoint of a L1 beacon archiver node",
+		Category: commonCategory,
+		EnvVars:  []string{"L1_BEACON_ARCHIVER"},
+	}
 	L2HTTPEndpoint = &cli.StringFlag{
 		Name:     "l2.http",
 		Usage:    "HTTP RPC endpoint of a L2 taiko-geth execution engine",
