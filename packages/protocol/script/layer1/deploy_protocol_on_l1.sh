@@ -29,7 +29,7 @@ forge script ./script/layer1/DeployProtocolOnL1.s.sol:DeployProtocolOnL1 \
     --ffi \
     -vvvv \
     --private-key $PRIVATE_KEY \
-    --block-gas-limit 100000000
+    --block-gas-limit 200000000
 
 export PRIVATE_KEY=0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80
 SECURITY_COUNCIL=0x8be2c9379eb69877F25aBa61a853eC4FCb0b273a \
@@ -43,4 +43,4 @@ forge script ./script/layer1/DeployTaikoToken.s.sol:DeployTaikoToken \
     --ffi \
     -vvvv \
     --private-key $PRIVATE_KEY \
-    --block-gas-limit 100000000
+    --block-gas-limit 200000000
